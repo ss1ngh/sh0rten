@@ -1,4 +1,5 @@
 import { createShortUrlService } from "../services/urlServices.js";
+import { getShortUrl } from "../dao/urlDAO.js"
 
 export const createShortUrl = async (req, res) => {
     try {
@@ -22,6 +23,6 @@ export const createShortUrl = async (req, res) => {
 
 export const redirectFromShortUrl= async(req, res) => {
     const {id} = req.params
-    const url = await findUrlFromShortUrl(id)
-    res.redirect(url);
+    const url = await getShortUrl(id)
+    res.redirect(url.fullUrl);
 }
