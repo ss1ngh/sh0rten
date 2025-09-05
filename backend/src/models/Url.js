@@ -5,13 +5,13 @@ const urlSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    shortUrl: {
+    shortId: {
         type: String,
         required: true,
         index: true,
         unique: true,
     },
-    clicks: {
+    totalClicks: {
         type: Number,
         default: 0,
     },
@@ -19,7 +19,9 @@ const urlSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
-}, { timestamps: true });
+}, { timestamps: true }
+);
 
-const Url = mongoose.model("Url", urlSchema);
-export default Url;
+const URL = mongoose.model("Url", urlSchema);
+export default URL;
+

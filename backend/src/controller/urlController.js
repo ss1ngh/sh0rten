@@ -1,5 +1,5 @@
-import { createShortUrlService } from "../services/urlServices.js";
-import { getShortUrl } from "../dao/urlDAO.js"
+import URL from "../models/url.js";
+import { nanoid } from "nanoid";
 
 export const createShortUrl = async (req, res) => {
     try {
@@ -9,20 +9,19 @@ export const createShortUrl = async (req, res) => {
             return res.status(400).json({ message: "URL is required" });
         }
 
-        const newUrl = await createShortUrlService(url);
+        const shortID = nanoid(8);
+
+        await URL.create({
+            shortId: shortID,
+            fullUrl : url,
+        })
 
         res.status(201).json({
-            shortUrl: `${process.env.APP_URL}/${newUrl.shortUrl}`,
-            fullUrl: newUrl.fullUrl,
+            shortUrl: `${req.protocol}://${req.get("host")}/${shortID}`,
+            fullUrl: url
         });
+
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
-
-
-export const redirectFromShortUrl= async(req, res) => {
-    const {id} = req.params
-    const url = await getShortUrl(id)
-    res.redirect(url.fullUrl);
-}
