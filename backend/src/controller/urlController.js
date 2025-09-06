@@ -3,10 +3,14 @@ import { nanoid } from "nanoid";
 
 export const createShortUrl = async (req, res) => {
   try {
-    const { url } = req.body;
+    let { url } = req.body;
 
     if (!url) {
       return res.status(400).json({ message: "URL is required" });
+    }
+
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      url = `https://${url}`;
     }
 
     //check if the shortened URL already exists in the DB
@@ -18,7 +22,7 @@ export const createShortUrl = async (req, res) => {
       });
     }
 
-    //otherwise create a new shortened URL
+    //otherwise create a new shortened
     const shortID = nanoid(8);
 
     const newUrl = await URL.create({

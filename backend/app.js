@@ -3,10 +3,18 @@ import dotenv from "dotenv";
 import connectDB from './src/config/db.js';
 import urlRoutes from './src/routes/urlRoutes.js'
 import { redirectFromShortUrl } from './src/controller/redirectController.js';
+import cors from 'cors';
 
 dotenv.config("./.env")
 
+const PORT = process.env.PORT
+
 const app = express();
+
+app.use(cors({
+     origin: "http://localhost:3000",
+     credentials: true,
+    }));
 
 connectDB();
 
@@ -17,6 +25,6 @@ app.use("/api", urlRoutes );
 app.get("/:shortId", redirectFromShortUrl);
 
 
-app.listen(5000, ()=> {
-    console.log("Server is running on http://localhost:5000");
+app.listen(PORT, ()=> {
+    console.log(`Server is running on http://localhost:${PORT}`);
 })
