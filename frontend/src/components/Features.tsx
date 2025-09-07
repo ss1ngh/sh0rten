@@ -3,7 +3,7 @@ import { Link as LinkIcon, QrCode, BarChart3 } from "lucide-react";
 
 export default function FeaturesSection() {
   return (
-    <section className="mt-20 px-4 sm:px-6 pb-20">
+    <section className="mt-28 px-4 sm:px-6 pb-20">
       <h2 className="text-3xl font-bold text-center mb-12 text-black">
         Key Features
       </h2>

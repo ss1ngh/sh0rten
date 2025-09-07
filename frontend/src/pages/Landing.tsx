@@ -3,6 +3,7 @@ import HeroSection from '@/components/HeroSection';
 import FeaturesSection from '@/components/Features';
 import Footer from '@/components/Footer';
 import { useRef } from 'react';
+import CTASection from '@/components/CTA';
 
 export default function Landing() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -21,13 +22,14 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* Content */}
+      
       <div className="relative z-10">
         <Navbar onFeaturesClick={scrollToFeatures} />
         <HeroSection heroRef={heroRef} featuresRef={featuresRef} />
         <div ref={featuresRef}>
           <FeaturesSection />
         </div>
+        <CTASection heroRef={heroRef} />
         <Footer />
       </div>
     </div>
