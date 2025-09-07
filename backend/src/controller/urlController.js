@@ -9,30 +9,33 @@ export const createShortUrl = async (req, res) => {
       return res.status(400).json({ message: 'URL is required' });
     }
 
+    
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       url = `https://${url}`;
     }
 
-    // check if the shortened URL already exists in the DB
-    let existingUrl = await URL.findOne({ fullUrl: url });
+    
+    const baseUrl = process.env.BASE_URL || 'https://sh0rten.vercel.app';
+
+    //check if the URL exists in DB
+    const existingUrl = await URL.findOne({ fullUrl: url });
     if (existingUrl) {
       return res.status(200).json({
-        shortUrl: `${process.env.BASE_URL || `${req.protocol}://${req.get('host')}`}/${existingUrl.shortId}`,
+        shortUrl: `${baseUrl}/${existingUrl.shortId}`,
         fullUrl: existingUrl.fullUrl,
       });
     }
 
-    //create short url
+    //create new short URL
     const shortId = nanoid(8);
-
     const newUrl = await URL.create({
-      shortId: shortId,
+      shortId,
       fullUrl: url,
       totalClicks: 0,
     });
 
     res.status(201).json({
-      shortUrl: `${process.env.BASE_URL || `${req.protocol}://${req.get('host')}`}/${newUrl.shortId}`,
+      shortUrl: `${baseUrl}/${newUrl.shortId}`,
       fullUrl: newUrl.fullUrl,
     });
   } catch (error) {
