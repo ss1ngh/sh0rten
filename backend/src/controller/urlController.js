@@ -15,7 +15,7 @@ export const createShortUrl = async (req, res) => {
     }
 
     
-    const baseUrl = process.env.BASE_URL || 'https://sh0rten.vercel.app';
+    const baseUrl = process.env.BASE_URL || 'https://sh0rten.onrender.com';
 
     //check if the URL exists in DB
     const existingUrl = await URL.findOne({ fullUrl: url });
