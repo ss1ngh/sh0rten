@@ -1,39 +1,34 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ArrowDown, Copy, Link as LinkIcon } from "lucide-react";
-import SplitText from "@/components/ui/split-text";
-import axios from "axios";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { ArrowDown, Copy, Link as LinkIcon } from 'lucide-react';
+import SplitText from '@/components/ui/split-text';
+import axios from 'axios';
 
 interface HeroSectionProps {
   heroRef: React.RefObject<HTMLDivElement>;
   featuresRef: React.RefObject<HTMLDivElement>;
 }
 
-
-
 export default function HeroSection({ heroRef, featuresRef }: HeroSectionProps) {
-  const [url, setUrl] = useState("");
-  const [shortUrl, setShortUrl] = useState("");
+  const [url, setUrl] = useState('');
+  const [shortUrl, setShortUrl] = useState('');
 
   const handleShorten = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/shorten`,
+        `${import.meta.env.VITE_API_URL}/api/shorten`,
         { url }
       );
       setShortUrl(response.data.shortUrl);
     } catch (error) {
-      console.error("Error shortening URL:", error);
+      console.error('Error shortening URL:', error);
     }
   };
 
   return (
-    <section
-      className="relative py-16 sm:py-20 lg:py-20"
-      ref={heroRef}
-    >
+    <section className="relative py-16 sm:py-20 lg:py-20" ref={heroRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center gap-6">
         <Badge variant="secondary" className="mb-4">
           🚀 Trusted by users worldwide
@@ -113,11 +108,10 @@ export default function HeroSection({ heroRef, featuresRef }: HeroSectionProps) 
         </Card>
       </div>
 
-      
-      <div 
+      <div
         className="hidden md:flex justify-center absolute bottom-1 w-full cursor-pointer"
-        onClick={()=> featuresRef.current?.scrollIntoView({behavior: "smooth"})}
-        >
+        onClick={() => featuresRef.current?.scrollIntoView({ behavior: 'smooth' })}
+      >
         <ArrowDown className="h-8 w-8 text-black animate-bounce" />
       </div>
     </section>

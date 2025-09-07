@@ -1,15 +1,15 @@
-import { Navbar } from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
-import FeaturesSection from "@/components/Features";
-import Footer from "@/components/Footer";
-import { useRef } from "react";
+import { Navbar } from '@/components/Navbar';
+import HeroSection from '@/components/HeroSection';
+import FeaturesSection from '@/components/Features';
+import Footer from '@/components/Footer';
+import { useRef } from 'react';
 
 export default function Landing() {
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
 
   const scrollToFeatures = () => {
-    featuresRef.current?.scrollIntoView({ behavior: "smooth" });
+    featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
