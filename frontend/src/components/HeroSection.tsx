@@ -17,7 +17,6 @@ export default function HeroSection({ heroRef, featuresRef }: HeroSectionProps) 
 
   const handleShorten = async () => {
     try {
-      console.log('API URL:', `${import.meta.env.VITE_API_URL}/api/shorten`);
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/shorten`,
         { url }
@@ -36,16 +35,13 @@ export default function HeroSection({ heroRef, featuresRef }: HeroSectionProps) 
         { responseType: 'blob' }
       );
 
-      
       const blob = new Blob([response.data], { type: 'image/png' });
-      const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.href = url;
+      link.href = window.URL.createObjectURL(blob);
       link.download = `${shortId}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error downloading QR code:', error.response || error.message);
     }
@@ -79,7 +75,6 @@ export default function HeroSection({ heroRef, featuresRef }: HeroSectionProps) 
           Fast, reliable, and hassle-free.
         </p>
 
-        
         <Card className="relative z-30 bg-white/70 backdrop-blur-md border border-white/30 rounded-2xl shadow-2xl w-full max-w-xl">
           <CardContent className="p-6 sm:p-8">
             <div className="text-center space-y-6">
@@ -89,22 +84,25 @@ export default function HeroSection({ heroRef, featuresRef }: HeroSectionProps) 
 
               <p className="text-black/70">Insert your URL and shorten it.</p>
 
-              <div className="flex flex-col sm:flex-row w-full mt-6">
+              <div className="flex flex-col sm:flex-row w-full mt-6 gap-2">
                 <input
                   type="text"
                   placeholder="Paste your link here"
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
-                  className="flex-grow px-4 py-3 rounded-l-full bg-white/80 border border-gray-200 border-r-0 focus:outline-none text-black"
+                  className="w-full sm:flex-grow px-4 py-3 bg-white/80 border border-gray-200 focus:outline-none text-black
+                    rounded-lg sm:rounded-l-full sm:rounded-r-none"
                 />
                 <Button
                   onClick={handleShorten}
-                  className="py-3 px-6 rounded-r-full bg-black text-white hover:bg-white hover:text-black border border-black transition"
+                  className="w-full sm:w-auto py-3 px-6 bg-black text-white hover:bg-white hover:text-black border border-black
+                    rounded-lg sm:rounded-r-full sm:rounded-l-none"
                 >
                   Shorten
                 </Button>
               </div>
 
+              {/* Short URL Display */}
               {shortUrl && (
                 <Card className="mt-4 sm:mt-6 border bg-white/70 backdrop-blur-sm shadow-md">
                   <CardContent className="flex flex-col sm:flex-row items-center justify-between p-4 gap-2">
@@ -116,7 +114,7 @@ export default function HeroSection({ heroRef, featuresRef }: HeroSectionProps) 
                     >
                       {shortUrl}
                     </a>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 mt-2 sm:mt-0">
                       <Button
                         size="icon"
                         variant="ghost"
