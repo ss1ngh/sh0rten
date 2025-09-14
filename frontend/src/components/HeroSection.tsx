@@ -28,6 +28,8 @@ export default function HeroSection({ heroRef, featuresRef }: HeroSectionProps) 
       setShortUrl(response.data.shortUrl);
     } catch (error) {
       console.error('Error shortening URL:', error.response || error.message);
+    } finally{
+      setLoading(false);
     }
   };
 
