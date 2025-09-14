@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowDown, Copy, Link as LinkIcon, Download } from 'lucide-react';
+import { ArrowDown, Copy, Link as LinkIcon, Download, Loader2 } from 'lucide-react';
 import SplitText from '@/components/ui/split-text';
 import axios from 'axios';
 
@@ -14,9 +14,13 @@ interface HeroSectionProps {
 export default function HeroSection({ heroRef, featuresRef }: HeroSectionProps) {
   const [url, setUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleShorten = async () => {
     try {
+      setLoading(true);
+      setShortUrl("");
+
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/shorten`,
         { url }
@@ -102,8 +106,16 @@ export default function HeroSection({ heroRef, featuresRef }: HeroSectionProps) 
                 </Button>
               </div>
 
+              {loading && (
+                <Card className="mt-4 sm:mt-6 border bg-white/70 backdrop-blur-sm shadow-md">
+                  <CardContent className="flex items-center justify-center p-6">
+                    <Loader2 className="h-6 w-6 text-black animate-spin" />
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Short URL Display */}
-              {shortUrl && (
+              {!loading && shortUrl && (
                 <Card className="mt-4 sm:mt-6 border bg-white/70 backdrop-blur-sm shadow-md">
                   <CardContent className="flex flex-col sm:flex-row items-center justify-between p-4 gap-2">
                     <a
